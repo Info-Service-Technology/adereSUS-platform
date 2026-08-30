@@ -1,8 +1,31 @@
-import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import { FormEvent, useState } from "react";
+import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
+import LockRoundedIcon from "@mui/icons-material/LockRounded";
+import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import { Brand } from "../components/Brand";
 
 export function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  function preventSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
   return (
     <Box
       component="main"
@@ -38,7 +61,14 @@ export function LoginPage() {
             sx={{ mb: 3, fontWeight: 700 }}
           />
 
-          <Typography component="h1" variant="h2" sx={{ fontSize: { xs: "2.75rem", sm: "3.75rem" }, lineHeight: 1.1 }}>
+          <Typography
+            component="h1"
+            variant="h2"
+            sx={{
+              fontSize: { xs: "2.75rem", sm: "3.75rem" },
+              lineHeight: 1.1,
+            }}
+          >
             Cuidado que continua.
           </Typography>
 
@@ -67,14 +97,113 @@ export function LoginPage() {
               "&:last-child": { pb: { xs: 3, sm: 5 } },
             }}
           >
-            <Typography component="h2" variant="h5">
-              Acesso profissional
-            </Typography>
+            <Stack
+              component="form"
+              aria-label="Acesso profissional"
+              spacing={2.5}
+              noValidate
+              onSubmit={preventSubmit}
+            >
+              <Box>
+                <Typography component="h2" variant="h5">
+                  Acesso profissional
+                </Typography>
 
-            <Typography color="text.secondary" sx={{ mt: 1.5, lineHeight: 1.6 }}>
-              Entre com suas credenciais institucionais para acessar o
-              AdereSUS.
-            </Typography>
+                <Typography
+                  color="text.secondary"
+                  sx={{ mt: 1.5, lineHeight: 1.6 }}
+                >
+                  Entre com suas credenciais institucionais para acessar o
+                  AdereSUS.
+                </Typography>
+              </Box>
+
+              <TextField
+                id="login-organization"
+                label="Instituição"
+                required
+                autoComplete="organization"
+                placeholder="Código da instituição"
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BusinessRoundedIcon color="action" />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+
+              <TextField
+                id="login-email"
+                label="E-mail institucional"
+                type="email"
+                required
+                autoComplete="username"
+                placeholder="seu.nome@instituicao.gov.br"
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <MailOutlineRoundedIcon color="action" />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+
+              <TextField
+                id="login-password"
+                label="Senha"
+                type={showPassword ? "text" : "password"}
+                required
+                autoComplete="current-password"
+                placeholder="Digite sua senha"
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockRoundedIcon color="action" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          type="button"
+                          edge="end"
+                          aria-label={
+                            showPassword ? "Ocultar senha" : "Mostrar senha"
+                          }
+                          onClick={() =>
+                            setShowPassword((currentValue) => !currentValue)
+                          }
+                        >
+                          {showPassword ? (
+                            <VisibilityOffRoundedIcon />
+                          ) : (
+                            <VisibilityRoundedIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+
+              <Button type="submit" variant="contained" size="large">
+                Entrar no AdereSUS
+              </Button>
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ textAlign: "center" }}
+              >
+                Precisa de acesso? Solicite o cadastro ao administrador da sua
+                instituição.
+              </Typography>
+            </Stack>
           </CardContent>
         </Card>
       </Box>

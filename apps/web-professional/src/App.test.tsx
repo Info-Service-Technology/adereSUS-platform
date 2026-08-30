@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { App } from "./App";
 
 describe("App", () => {
-  it("apresenta a marca e a mensagem institucional", () => {
+  it("apresenta a estrutura do acesso profissional", () => {
     render(<App />);
 
     expect(
@@ -12,6 +12,10 @@ describe("App", () => {
 
     expect(
       screen.getByRole("heading", { name: "Cuidado que continua." }),
+    ).toBeTruthy();
+
+    expect(
+      screen.getByRole("heading", { name: "Acesso profissional" }),
     ).toBeTruthy();
 
     expect(

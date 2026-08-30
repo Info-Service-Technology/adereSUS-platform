@@ -3,15 +3,21 @@ import { render, screen } from "@testing-library/react";
 import { App } from "./App";
 
 describe("App", () => {
-  it("apresenta a identificação do portal profissional", () => {
+  it("apresenta a marca e a mensagem institucional", () => {
     render(<App />);
 
     expect(
-      screen.getByRole("heading", { name: "AdereSUS" }),
+      screen.getByRole("img", { name: "AdereSUS" }),
     ).toBeTruthy();
 
     expect(
-      screen.getByText("Portal profissional de acompanhamento do cuidado."),
+      screen.getByRole("heading", { name: "Cuidado que continua." }),
+    ).toBeTruthy();
+
+    expect(
+      screen.getByText(
+        "Acompanhamento digital para aumentar a adesão ao cuidado após a consulta.",
+      ),
     ).toBeTruthy();
   });
 });

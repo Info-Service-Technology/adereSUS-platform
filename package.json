@@ -12,7 +12,8 @@
     "build:web": "npm run build --workspace=@aderesus/web-professional",
     "test:web": "npm run test --workspace=@aderesus/web-professional",
     "lint:web": "npm run lint --workspace=@aderesus/web-professional",
-    "typecheck:web": "npm run typecheck --workspace=@aderesus/web-professional"
+    "typecheck:web": "npm run typecheck --workspace=@aderesus/web-professional",
+    "coverage:web": "npm run coverage --workspace=@aderesus/web-professional"
   },
   "workspaces": [
     "apps/*"

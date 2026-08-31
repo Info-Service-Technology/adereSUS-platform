@@ -7,6 +7,12 @@ describe("App", () => {
     render(<App />);
 
     expect(
+      screen.getByRole("img", {
+        name: "Visão do acompanhamento digital AdereSUS",
+      }),
+    ).toBeTruthy();
+
+    expect(
       screen.getByRole("img", { name: "AdereSUS" }),
     ).toBeTruthy();
 

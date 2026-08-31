@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 
 import { Brand } from "../components/Brand";
+import { CampaignPanel } from "../components/CampaignPanel";
 
 export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,9 +44,12 @@ export function LoginPage() {
           "radial-gradient(circle at 92% 5%, rgba(25,135,84,.15), transparent 30%), radial-gradient(circle at 5% 95%, rgba(0,86,179,.10), transparent 35%)",
       }}
     >
+      <CampaignPanel />
+
       <Stack
         spacing={4}
         sx={{
+          display: { xs: "flex", lg: "none" },
           justifyContent: "center",
           px: { xs: 3, sm: 6, lg: 10 },
           py: { xs: 6, md: 8 },

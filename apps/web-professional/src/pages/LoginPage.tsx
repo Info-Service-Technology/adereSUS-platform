@@ -19,12 +19,32 @@ import {
 
 import { Brand } from "../components/Brand";
 import { CampaignPanel } from "../components/CampaignPanel";
+import { validateLogin } from "../lib/login-validation";
+import type { LoginErrors, LoginValues } from "../lib/login-validation";
 
 export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [values, setValues] = useState<LoginValues>({
+    organization: "",
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState<LoginErrors>({});
 
-  function preventSubmit(event: FormEvent<HTMLFormElement>) {
+  function updateField(field: keyof LoginValues, value: string) {
+    setValues((currentValues) => ({
+      ...currentValues,
+      [field]: value,
+    }));
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [field]: undefined,
+    }));
+  }
+
+  function submitLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setErrors(validateLogin(values));
   }
 
   return (
@@ -106,7 +126,7 @@ export function LoginPage() {
               aria-label="Acesso profissional"
               spacing={2.5}
               noValidate
-              onSubmit={preventSubmit}
+              onSubmit={submitLogin}
             >
               <Box>
                 <Typography component="h2" variant="h5">
@@ -128,6 +148,12 @@ export function LoginPage() {
                 required
                 autoComplete="organization"
                 placeholder="Código da organização"
+                value={values.organization}
+                onChange={(event) =>
+                  updateField("organization", event.target.value)
+                }
+                error={Boolean(errors.organization)}
+                helperText={errors.organization}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -146,6 +172,10 @@ export function LoginPage() {
                 required
                 autoComplete="username"
                 placeholder="nome@exemplo.com.br"
+                value={values.email}
+                onChange={(event) => updateField("email", event.target.value)}
+                error={Boolean(errors.email)}
+                helperText={errors.email}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -164,6 +194,12 @@ export function LoginPage() {
                 required
                 autoComplete="current-password"
                 placeholder="Digite sua senha"
+                value={values.password}
+                onChange={(event) =>
+                  updateField("password", event.target.value)
+                }
+                error={Boolean(errors.password)}
+                helperText={errors.password}
                 slotProps={{
                   input: {
                     startAdornment: (

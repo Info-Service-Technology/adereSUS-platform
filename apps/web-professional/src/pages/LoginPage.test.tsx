@@ -10,7 +10,7 @@ describe("LoginPage", () => {
     expect(screen.getByLabelText(/E-mail de acesso/)).toBeTruthy();
     expect(screen.getByLabelText(/Senha/)).toBeTruthy();
     expect(
-      screen.getByRole("button", { name: "Entrar no AdereSUS" }),
+      screen.getByRole("button", { name: /Entrar no/ }),
     ).toBeTruthy();
   });
 
@@ -24,27 +24,52 @@ describe("LoginPage", () => {
     fireEvent.click(
       screen.getByRole("button", { name: "Mostrar senha" }),
     );
-
     expect(password.type).toBe("text");
 
     fireEvent.click(
       screen.getByRole("button", { name: "Ocultar senha" }),
     );
-
     expect(password.type).toBe("password");
   });
 
-  it("mantém o formulário local enquanto a autenticação não está integrada", () => {
+  it("apresenta os erros ao enviar campos vazios", () => {
     render(<LoginPage />);
 
-    const form = screen.getByRole("form", { name: "Acesso profissional" });
-    const submitEvent = new Event("submit", {
-      bubbles: true,
-      cancelable: true,
+    fireEvent.click(screen.getByRole("button", { name: /Entrar no/ }));
+
+    expect(screen.getByText("Informe a organização.")).toBeTruthy();
+    expect(screen.getByText("Informe o e-mail de acesso.")).toBeTruthy();
+    expect(screen.getByText("Informe a senha.")).toBeTruthy();
+  });
+
+  it("apresenta erro para e-mail inválido", () => {
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByLabelText(/Organização/), {
+      target: { value: "clinica-central" },
+    });
+    fireEvent.change(screen.getByLabelText(/E-mail de acesso/), {
+      target: { value: "profissional@dominio" },
+    });
+    fireEvent.change(screen.getByLabelText(/Senha/), {
+      target: { value: "senha-segura" },
     });
 
-    form.dispatchEvent(submitEvent);
+    fireEvent.click(screen.getByRole("button", { name: /Entrar no/ }));
 
-    expect(submitEvent.defaultPrevented).toBe(true);
+    expect(screen.getByText("Informe um e-mail válido.")).toBeTruthy();
+  });
+
+  it("remove o erro de um campo quando ele é corrigido", () => {
+    render(<LoginPage />);
+
+    fireEvent.click(screen.getByRole("button", { name: /Entrar no/ }));
+    expect(screen.getByText("Informe a organização.")).toBeTruthy();
+
+    fireEvent.change(screen.getByLabelText(/Organização/), {
+      target: { value: "consultorio-particular" },
+    });
+
+    expect(screen.queryByText("Informe a organização.")).toBeNull();
   });
 });

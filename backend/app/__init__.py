@@ -1,0 +1,1 @@
+"""AdereSUS backend application."""

@@ -9,8 +9,8 @@ describe("validateLogin", () => {
         password: "",
       }),
     ).toEqual({
-      organization: "Informe a instituição.",
-      email: "Informe o e-mail institucional.",
+      organization: "Informe a organização.",
+      email: "Informe o e-mail de acesso.",
       password: "Informe a senha.",
     });
   });
@@ -23,15 +23,15 @@ describe("validateLogin", () => {
         password: "senha",
       }),
     ).toEqual({
-      email: "Informe um e-mail institucional válido.",
+      email: "Informe um e-mail válido.",
     });
   });
 
-  it("ignora espaços externos na instituição e no e-mail", () => {
+  it("ignora espaços externos na organização e no e-mail", () => {
     expect(
       validateLogin({
         organization: " hospital-central ",
-        email: " profissional@instituicao.gov.br ",
+        email: " profissional@clinica.com.br ",
         password: "senha",
       }),
     ).toEqual({});
@@ -41,7 +41,7 @@ describe("validateLogin", () => {
     expect(
       validateLogin({
         organization: "hospital-central",
-        email: "profissional@instituicao.gov.br",
+        email: "profissional@clinica.com.br",
         password: "senha",
       }),
     ).toEqual({});

@@ -12,13 +12,13 @@ export function validateLogin(values: LoginValues): LoginErrors {
   const errors: LoginErrors = {};
 
   if (!values.organization.trim()) {
-    errors.organization = "Informe a instituição.";
+    errors.organization = "Informe a organização.";
   }
 
   if (!values.email.trim()) {
-    errors.email = "Informe o e-mail institucional.";
+    errors.email = "Informe o e-mail de acesso.";
   } else if (!EMAIL_PATTERN.test(values.email.trim())) {
-    errors.email = "Informe um e-mail institucional válido.";
+    errors.email = "Informe um e-mail válido.";
   }
 
   if (!values.password) {

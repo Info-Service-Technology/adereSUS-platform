@@ -3,11 +3,11 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { LoginPage } from "./LoginPage";
 
 describe("LoginPage", () => {
-  it("apresenta os campos institucionais de acesso", () => {
+  it("apresenta os campos de acesso da organização", () => {
     render(<LoginPage />);
 
-    expect(screen.getByLabelText(/Instituição/)).toBeTruthy();
-    expect(screen.getByLabelText(/E-mail institucional/)).toBeTruthy();
+    expect(screen.getByLabelText(/Organização/)).toBeTruthy();
+    expect(screen.getByLabelText(/E-mail de acesso/)).toBeTruthy();
     expect(screen.getByLabelText(/Senha/)).toBeTruthy();
     expect(
       screen.getByRole("button", { name: "Entrar no AdereSUS" }),

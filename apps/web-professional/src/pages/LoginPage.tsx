@@ -117,17 +117,17 @@ export function LoginPage() {
                   color="text.secondary"
                   sx={{ mt: 1.5, lineHeight: 1.6 }}
                 >
-                  Entre com suas credenciais institucionais para acessar o
+                  Entre com suas credenciais de acesso para acessar o
                   AdereSUS.
                 </Typography>
               </Box>
 
               <TextField
                 id="login-organization"
-                label="Instituição"
+                label="Organização"
                 required
                 autoComplete="organization"
-                placeholder="Código da instituição"
+                placeholder="Código da organização"
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -141,11 +141,11 @@ export function LoginPage() {
 
               <TextField
                 id="login-email"
-                label="E-mail institucional"
+                label="E-mail de acesso"
                 type="email"
                 required
                 autoComplete="username"
-                placeholder="seu.nome@instituicao.gov.br"
+                placeholder="nome@exemplo.com.br"
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -204,8 +204,8 @@ export function LoginPage() {
                 color="text.secondary"
                 sx={{ textAlign: "center" }}
               >
-                Precisa de acesso? Solicite o cadastro ao administrador da sua
-                instituição.
+                Precisa de acesso? Solicite o cadastro ao administrador responsável pela sua
+                organização.
               </Typography>
             </Stack>
           </CardContent>

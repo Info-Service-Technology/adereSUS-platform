@@ -8,12 +8,12 @@ describe("App", () => {
 
     expect(
       screen.getByRole("img", {
-        name: "Visão do acompanhamento digital AdereSUS",
+        name: "Visão do acompanhamento digital Adere+",
       }),
     ).toBeTruthy();
 
     expect(
-      screen.getByRole("img", { name: "AdereSUS" }),
+      screen.getByRole("img", { name: "Adere+" }),
     ).toBeTruthy();
 
     expect(

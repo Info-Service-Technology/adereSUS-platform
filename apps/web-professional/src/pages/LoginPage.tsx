@@ -138,7 +138,7 @@ export function LoginPage() {
                   sx={{ mt: 1.5, lineHeight: 1.6 }}
                 >
                   Entre com suas credenciais de acesso para acessar o
-                  AdereSUS.
+                  Adere+.
                 </Typography>
               </Box>
 
@@ -232,7 +232,7 @@ export function LoginPage() {
               />
 
               <Button type="submit" variant="contained" size="large">
-                Entrar no AdereSUS
+                Entrar no Adere+
               </Button>
 
               <Typography

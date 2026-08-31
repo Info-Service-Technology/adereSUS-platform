@@ -13,8 +13,8 @@ export function CampaignPanel() {
     >
       <Box
         component="img"
-        src="/brand/aderesus-campaign-transparent.webp"
-        alt="Visão do acompanhamento digital AdereSUS"
+        src="/brand/adere-plus-campaign-transparent.webp"
+        alt="Visão do acompanhamento digital Adere+"
         sx={{
           display: "block",
           width: "100%",

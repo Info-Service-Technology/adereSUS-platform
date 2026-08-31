@@ -1,7 +1,7 @@
 import { adereSUSTheme } from "./theme";
 
 describe("adereSUSTheme", () => {
-  it("mantém as cores institucionais do AdereSUS", () => {
+  it("mantém as cores institucionais do Adere+", () => {
     expect(adereSUSTheme.palette.primary.main).toBe("#0056b3");
     expect(adereSUSTheme.palette.secondary.main).toBe("#198754");
     expect(adereSUSTheme.palette.error.main).toBe("#dc3545");

@@ -2,7 +2,7 @@
   "name": "aderesus",
   "version": "0.2.0",
   "private": true,
-  "description": "AdereSUS — acompanhamento digital pós-consulta",
+  "description": "Adere+ — acompanhamento digital pós-consulta",
   "packageManager": "npm@11.12.1",
   "engines": {
     "node": ">=22.12.0"

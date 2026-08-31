@@ -8,8 +8,8 @@ export function Brand({ maxWidth = 360 }: BrandProps) {
   return (
     <Box
       component="img"
-      src="/brand/aderesus-horizontal.webp"
-      alt="AdereSUS"
+      src="/brand/adere-plus-horizontal.webp"
+      alt="Adere+"
       sx={{
         display: "block",
         width: "100%",

@@ -5,6 +5,7 @@ import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -19,6 +20,7 @@ import {
 
 import { Brand } from "../components/Brand";
 import { CampaignPanel } from "../components/CampaignPanel";
+import { login } from "../lib/auth-api";
 import { validateLogin } from "../lib/login-validation";
 import type { LoginErrors, LoginValues } from "../lib/login-validation";
 
@@ -30,6 +32,8 @@ export function LoginPage() {
     password: "",
   });
   const [errors, setErrors] = useState<LoginErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   function updateField(field: keyof LoginValues, value: string) {
     setValues((currentValues) => ({
@@ -42,9 +46,35 @@ export function LoginPage() {
     }));
   }
 
-  function submitLogin(event: FormEvent<HTMLFormElement>) {
+  async function submitLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setErrors(validateLogin(values));
+
+    if (isSubmitting) {
+      return;
+    }
+
+    const validationErrors = validateLogin(values);
+
+    setErrors(validationErrors);
+    setLoginError(null);
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await login(values);
+    } catch (error) {
+      setLoginError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível realizar o acesso.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -231,8 +261,19 @@ export function LoginPage() {
                 }}
               />
 
-              <Button type="submit" variant="contained" size="large">
-                Entrar no Adere+
+              {loginError && (
+                <Alert severity="error">
+                  {loginError}
+                </Alert>
+              )}
+
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Entrando..." : "Entrar no Adere+"}
               </Button>
 
               <Typography

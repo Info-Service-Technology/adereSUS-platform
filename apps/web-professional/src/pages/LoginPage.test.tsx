@@ -1,6 +1,18 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { beforeEach, vi } from "vitest";
 
+import { login } from "../lib/auth-api";
 import { LoginPage } from "./LoginPage";
+
+vi.mock("../lib/auth-api", () => ({
+  login: vi.fn(),
+}));
+
+const mockedLogin = vi.mocked(login);
+
+beforeEach(() => {
+  mockedLogin.mockReset();
+});
 
 describe("LoginPage", () => {
   it("apresenta os campos de acesso da organização", () => {
@@ -71,5 +83,119 @@ describe("LoginPage", () => {
     });
 
     expect(screen.queryByText("Informe a organização.")).toBeNull();
+  });
+
+  it("envia credenciais válidas para autenticação", async () => {
+    mockedLogin.mockResolvedValue({
+      user: {
+        id: "professional-1",
+        fullName: "Profissional Teste",
+        email: "profissional@exemplo.org",
+        organizationId: "organization-1",
+        organizationName: "Instituição Teste",
+        organizationSlug: "instituicao-teste",
+        role: "organization_admin",
+      },
+    });
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByLabelText(/Organização/), {
+      target: { value: "instituicao-teste" },
+    });
+    fireEvent.change(screen.getByLabelText(/E-mail de acesso/), {
+      target: { value: "profissional@exemplo.org" },
+    });
+    fireEvent.change(screen.getByLabelText(/Senha/), {
+      target: { value: "senha-segura" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Entrar no/ }));
+
+    await waitFor(() => {
+      expect(mockedLogin).toHaveBeenCalledWith({
+        organization: "instituicao-teste",
+        email: "profissional@exemplo.org",
+        password: "senha-segura",
+      });
+    });
+  });
+
+  it("indica autenticação em andamento e bloqueia novo envio", async () => {
+    let resolveLogin!: () => void;
+
+    mockedLogin.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveLogin = () =>
+            resolve({
+              user: {
+                id: "professional-1",
+                fullName: "Profissional Teste",
+                email: "profissional@exemplo.org",
+                organizationId: "organization-1",
+                organizationName: "Instituição Teste",
+                organizationSlug: "instituicao-teste",
+                role: "organization_admin",
+              },
+            });
+        }),
+    );
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByLabelText(/Organização/), {
+      target: { value: "instituicao-teste" },
+    });
+    fireEvent.change(screen.getByLabelText(/E-mail de acesso/), {
+      target: { value: "profissional@exemplo.org" },
+    });
+    fireEvent.change(screen.getByLabelText(/Senha/), {
+      target: { value: "senha-segura" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Entrar no/ }));
+
+    const submittingButton = await screen.findByRole("button", {
+      name: "Entrando...",
+    });
+
+    expect(submittingButton).toHaveProperty("disabled", true);
+
+    fireEvent.click(submittingButton);
+
+    expect(mockedLogin).toHaveBeenCalledTimes(1);
+
+    resolveLogin();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Entrar no Adere+" }),
+      ).toBeTruthy();
+    });
+  });
+
+  it("apresenta erro retornado pela autenticação", async () => {
+    mockedLogin.mockRejectedValue(
+      new Error("Credenciais inválidas"),
+    );
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByLabelText(/Organização/), {
+      target: { value: "instituicao-teste" },
+    });
+    fireEvent.change(screen.getByLabelText(/E-mail de acesso/), {
+      target: { value: "profissional@exemplo.org" },
+    });
+    fireEvent.change(screen.getByLabelText(/Senha/), {
+      target: { value: "senha-incorreta" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Entrar no/ }));
+
+    expect(
+      await screen.findByText("Credenciais inválidas"),
+    ).toBeTruthy();
   });
 });

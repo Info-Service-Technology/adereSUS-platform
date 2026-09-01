@@ -1,0 +1,26 @@
+# API e servidor ASGI
+fastapi>=0.141.1,<0.142
+uvicorn[standard]>=0.52.4,<0.53
+
+# Configuração e validação
+pydantic-settings>=2.15.0,<2.16
+email-validator>=2.3.0,<3
+python-multipart>=0.0.22,<0.1
+
+# Banco operacional PostgreSQL e migrações
+SQLAlchemy>=2.0.52,<2.1
+psycopg[binary,pool]>=3.3.4,<3.4
+alembic>=1.19.1,<1.20
+
+# Autenticação e segurança
+pwdlib[argon2]>=0.3.1,<0.4
+PyJWT>=2.13.0,<3
+
+# Filas, agendamento e cache técnico
+celery[redis]>=5.6.3,<5.7
+redis>=6.4.0,<6.5
+
+# Integrações, resiliência e observabilidade
+httpx>=0.28.1,<0.29
+tenacity>=9.1.4,<10
+structlog>=26.1.0,<27

@@ -1,6 +1,6 @@
-# AdereSUS
+# Adere+
 
-Nova fundação do AdereSUS — acompanhamento digital pós-consulta, com monitoramento definido pelo profissional, comunicação pelo WhatsApp e integração com HDI-PEP e HDI.
+Nova fundação do Adere+ — acompanhamento digital pós-consulta, com monitoramento definido pelo profissional, comunicação pelo WhatsApp e integração com HDI-PEP e HDI.
 
 ## Estado atual
 

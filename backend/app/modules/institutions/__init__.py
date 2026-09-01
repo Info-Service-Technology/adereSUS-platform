@@ -1,0 +1,1 @@
+"""Institutional tenancy models."""
